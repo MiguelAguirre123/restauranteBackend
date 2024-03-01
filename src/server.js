@@ -1,8 +1,12 @@
-const connection = require('./DataBase.connection')
+require('./DataBase/sync.js');
+
+const connection = require('./DataBase/connection');
 const express = require('express');
-const { Connection } = require('pg/lib');
 const app = express();
 const port = process.env.PORT || 1337;
+
+//routers
+const restaurantrouter = require('./Routers/restaurantrouter');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -17,3 +21,6 @@ connection.sync({force: false})
     .catch((error) => {
         console.error('Error al sincronizar la base de datos: ', error)
     });
+
+//api
+app.use('/api', restaurantrouter);
