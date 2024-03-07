@@ -7,6 +7,9 @@ const port = process.env.PORT || 1337;
 
 //routers
 const restaurantrouter = require('./Routers/restaurantrouter');
+const productrouter = require('./Routers/productrouter')
+const departmentrouter = require('./Routers/departmentrouter')
+const cityrouter = require('./Routers/cityrouter')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -24,3 +27,6 @@ connection.sync({force: false})
 
 //api
 app.use('/api', restaurantrouter);
+app.use('/api', productrouter);
+app.use('/api', departmentrouter);
+app.use('/api', cityrouter);
