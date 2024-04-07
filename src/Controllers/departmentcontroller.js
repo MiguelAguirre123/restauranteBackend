@@ -5,8 +5,8 @@ async function listDepartment(req, res){
     try{
         await department.findAll({
             attributes: [
-                'departmentId',
-                'departmentName'
+                ['departmentId', 'value'],
+                ['departmentName', 'label']
             ],
             order: ['departmentName']
         }).then(function (data){

@@ -5,16 +5,12 @@ const department = require('../Models/department');
 async function listCity(req, res){
     try{
         await city.findAll({
+            where: { departmentId: req.params.departmentId },
             attributes: [
-                'cityId',
-                'cityName'
+                ['cityId', 'value'],
+                ['cityName', 'label']
             ],
             order: ['cityName'],
-            include: {
-                model: department,
-                where: { departmentId: req.params.departmentId },
-                attributes: ['departmentName']
-            }
         }).then(function (data){
             return res.status(200).json({
                 data: data
