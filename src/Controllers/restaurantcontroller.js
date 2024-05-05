@@ -1,5 +1,7 @@
 require('express');
 const restaurant = require('../Models/restaurant');
+const city = require('../Models/city')
+const department = require('../Models/department')
 
 async function createRestaurant(req, res){
     try{
@@ -44,6 +46,37 @@ async function listRestaurant(req, res){
                 'cityId'
             ],
             order: ['restaurantName']
+        }).then(function (data){
+            return res.status(200).json({
+                data: data
+            });
+        }).catch(error => {
+            return res.status(400).json({
+                error: error
+            });
+        })
+    }
+    catch(e){
+        console.log(e);
+    }
+}
+
+async function getRestaurant(req, res){
+    try{
+        await restaurant.findOne({
+            where: {restaurantId : req.params.restaurantId},
+            attributes: [
+                'restaurantId',
+                'restaurantName',
+                'restaurantNit',
+                'restaurantAddress',
+                'restaurantPhone',
+                'cityId'
+            ],
+            include: {
+                model: city,
+                attributes: ['departmentId'],
+            },
         }).then(function (data){
             return res.status(200).json({
                 data: data
@@ -125,6 +158,7 @@ async function enableRestaurant(req, res){
 module.exports = {
     createRestaurant,
     listRestaurant,
+    getRestaurant,
     updateRestaurant,
     disableRestaurant,
     enableRestaurant
